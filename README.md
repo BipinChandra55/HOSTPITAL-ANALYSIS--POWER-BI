@@ -1,3 +1,50 @@
+INSIGHTS
+
+Week-on-Week (WoW) is a type of business metric that measures changes in a specific variable 
+over a period of one week compared to the previous week. It is a common way of tracking 
+business performance over time and is particularly useful for analyzing trends and identifying 
+areas where improvements can be made. 
+Here are the metrics for which we found the WoW change% in this video: 
+1. Revenue WoW change %: To get the revenue change percentage week over week. 
+2. Occupancy WoW change %: To get the occupancy change percentage week over week. 
+3. ADR WoW change %: To get the ADR (Average Daily rate) change percentage week over 
+week. 
+4. RevPAR WoW change %: To get the RevPAR (Revenue Per Available Room) change 
+percentage week over week. 
+5. Realisation WoW change %: To get the Realisation change percentage week over week. 
+6. DSRN WoW change %: To get the DSRN (Daily Sellable Room Nights) change percentage 
+week over week. 
+Let’s understand WoW change% for Revenue metric as an example: 
+Let’s break down this formula: 
+
+Var selv = IF(HASONEFILTER(dim_date[wn]), SELECTEDVALUE(dim_date[wn]),MAX(dim_date[wn])) 
+This line creates a variable named selv. It checks if there is only one filter applied to the 
+dim_date[wn] column. If there is only one filter, it uses the selected value of that filter; 
+otherwise, it uses the maximum value of the dim_date[wn] column.
+
+var revcw = CALCULATE([Revenue],dim_date[wn]= selv) 
+This line creates a variable named revcw. It calculates the revenue by applying a filter on the 
+dim_date[wn] column, where the value matches the one stored in the selv variable. The 
+[Revenue] measure is used for this calculation. 
+
+Var revpw = CALCULATE([Revenue],FILTER(ALL(dim_date),dim_date[wn]= selv-1)) 
+This line creates a variable named revpw. It calculates the revenue for the previous week by 
+applying a filter on the dim_date[wn] column, where the value is one less than the one stored in 
+the selv variable. The FILTER function combined with ALL(dim_date) ensures that the filter is 
+applied to all the dates, regardless of other filters that might be active. The [Revenue] measure 
+is used for this calculation. 
+
+DIVIDE (revcw, revpw,0)-1 
+This line calculates the percentage change in revenue WoW. It uses the DIVIDE function to divide 
+the value of revcw (current week revenue) by the value of revpw (previous week revenue), with 
+a specified default value of 0 in case the divisor is 0. The resulting quotient is then subtracted by 
+1 to calculate the percentage change. 
+The entire formula returns the week-over-week percentage change in revenue. This formula can 
+be used as a calculated column or a measure in Power BI to display the WoW revenue change in 
+a visual or table. 
+
+DASHBOARDING TIPS
+
 1. Color Selection
  Primary and/or secondary colors 
 1. Choose from the corporate identity e.g., LOGO 
